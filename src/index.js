@@ -49,14 +49,14 @@ export class Thrivecart {
             this.page.click('text=Search')
         ]);
 
-
-        //await this.page.waitForSelector(`.order-row-customer-name:text("${student_name}")`, { timeout:5000 })
-
         if (verbose) console.log(`Opening access popup`);
         await this.page.click('text=Give accessSuspendRevokeChange plan...')
-        await this.page.click('text=Give access')
+        await Promise.all([
+            this.page.click('text=Give access'),
+            this.page.waitForResponse(res => res.url().includes('call/') && res.status() === 200),
+            this.page.waitForSelector(`select[name="course_id"]`, { timeout:5000 })
+        ])
 
-        await this.page.waitForSelector(`select[name="course_id"]`, { timeout:5000 })
         if (verbose) console.log(`Looking for course: ${course_name}`);
         const course = await this.page.$(`select[name="course_id"] option:has-text("${course_name}")`);
         if (course == null)
@@ -72,8 +72,11 @@ export class Thrivecart {
         await this.page.selectOption('select[name="course_id"]', {label: course_label});
       
         if (verbose) console.log('Giving access...')
-        await this.page.click('button:has-text("Give access")');
-        await this.page.waitForSelector('text=Updated your student',{timeout:10000})
+        await Promise.all([
+            this.page.click('button:has-text("Give access")'),
+            this.page.waitForSelector('text=Updated your student',{timeout:10000}),
+            this.page.waitForResponse(res => res.url().includes('?view=view.student_iterate') && res.status() === 200),
+        ])
         if (verbose) console.log('Access given')
 
         return true

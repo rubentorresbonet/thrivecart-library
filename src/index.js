@@ -31,10 +31,10 @@ export class Thrivecart {
         await this.page.fill('[placeholder="hello@thrivecart.com"]', username);
         await this.page.fill('[placeholder="..."]', password);
         await Promise.all([
+            this.page.waitForResponse(res => res.url().includes('?view=products') && res.status() === 200),
             this.page.waitForNavigation(),
             this.page.click('input:has-text("Sign in")')
         ]);
-        await this.page.waitForResponse(res => res.url().includes('?view=products') && res.status() === 200)
     }
 
     async studentGiveAccess(student_name, course_name, verbose = false)

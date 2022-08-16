@@ -1,0 +1,23 @@
+{
+  "type": "module",
+  "name": "@rubentorresbonet/thrivecart-library",
+  "version": "0.1.2",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubentorresbonet/thrivecart-library.git"
+  },
+  "author": "Ruben Torres Bonet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rubentorresbonet/thrivecart-library/issues"
+  },
+  "homepage": "https://github.com/rubentorresbonet/thrivecart-library#readme",
+  "dependencies": {
+    "playwright-core": "^1.25.0"
+  }
+}

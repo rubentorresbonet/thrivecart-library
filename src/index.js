@@ -37,6 +37,37 @@ export class Thrivecart {
         ]);
     }
 
+    async goToLearnModules()
+    {
+        await this.page.goto('https://thrivecart.com/thegamedevguru/#/learn')
+    }
+
+    async cloneLearnModule(course_id, name_new)
+    {
+        const plugin_url = 'https://thrivecart.com/thegamedevguru/api/v1/plugin/call/'
+        let res = await this.page.request.post(plugin_url, {
+            form: {
+                plugin: 'core.courses',
+                method: 'clone_course',
+                course_id: course_id
+            }
+          });
+
+        const new_module_data = await res.json()
+        const new_course_id = new_module_data.course.id
+        await this.page.request.post(plugin_url, {
+            form: {
+                plugin: 'core.courses',
+                method: 'update_course',
+                course_id: new_course_id,
+                'opts[course][name]': name_new,
+                'opts[course][id]': new_course_id,
+                'opts[contents_patch]': '',
+                'opts[recalc_queue]': false
+            }
+        });
+    }
+
     async studentGiveAccess(student_name, course_name, verbose = false)
     {
         await this.page.goto('https://thrivecart.com/thegamedevguru/#/learn/students');

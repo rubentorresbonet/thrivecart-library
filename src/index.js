@@ -33,7 +33,7 @@ export class Thrivecart {
         {
             try
             {
-                console.warn(`Login attempt ${i+1}/${tries}`);
+                console.log(`Login attempt ${i+1}/${tries}`);
                 await this.page.goto('https://thrivecart.com/signin/')
                 await this.page.fill('[placeholder="hello@thrivecart.com"]', username);
                 await this.page.fill('[placeholder="..."]', password);
@@ -46,7 +46,7 @@ export class Thrivecart {
             }
             catch (e)
             {
-                console.warn(`Login failed. Retrying... (${i+1}/${tries})`);
+                console.log(`Login failed. Retrying... (${i+1}/${tries})`);
                 await this.page.waitForTimeout(1000);
             }
         }

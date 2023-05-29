@@ -27,14 +27,29 @@ export class Thrivecart {
 
     async login(username, password, verbose = false)
     {
-        await this.page.goto('https://thrivecart.com/signin/')
-        await this.page.fill('[placeholder="hello@thrivecart.com"]', username);
-        await this.page.fill('[placeholder="..."]', password);
-        await Promise.all([
-            this.page.waitForResponse(res => res.url().includes('?view=products') && res.status() === 200),
-            this.page.waitForNavigation(),
-            this.page.click('input:has-text("Sign in")')
-        ]);
+        const tries = 3;
+        const timeoutMs = 8000;
+        for (let i = 0; i < tries; i++)
+        {
+            try
+            {
+                console.warn(`Login attempt ${i+1}/${tries}`);
+                await this.page.goto('https://thrivecart.com/signin/')
+                await this.page.fill('[placeholder="hello@thrivecart.com"]', username);
+                await this.page.fill('[placeholder="..."]', password);
+                await Promise.all([
+                    this.page.waitForResponse(res => res.url().includes('?view=products') && res.status() === 200, { timeout: timeoutMs }),
+                    this.page.waitForNavigation({ timeout: timeoutMs }),
+                    this.page.click('input:has-text("Sign in")')
+                ]);
+               return;
+            }
+            catch (e)
+            {
+                console.warn(`Login failed. Retrying... (${i+1}/${tries})`);
+                await this.page.waitForTimeout(1000);
+            }
+        }
     }
 
     async goToLearnModules()

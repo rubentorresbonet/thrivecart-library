@@ -27,9 +27,7 @@ export class Thrivecart {
 
     async login(username, password, verbose = false)
     {
-        const tries = 3;
         const timeoutMs = 8000;
-        console.log(`Login attempt ${i+1}/${tries}`);
         await this.page.goto('https://thrivecart.com/signin/')
         await this.page.fill('[placeholder="hello@thrivecart.com"]', username);
         await this.page.fill('[placeholder="..."]', password);

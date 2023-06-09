@@ -25,9 +25,8 @@ export class Thrivecart {
         await this.browser.close();
     }
 
-    async login(username, password, verbose = false)
+    async login(username, password, timeoutMs = 15000)
     {
-        const timeoutMs = 8000;
         await this.page.goto('https://thrivecart.com/signin/')
         await this.page.fill('[placeholder="hello@thrivecart.com"]', username);
         await this.page.fill('[placeholder="..."]', password);

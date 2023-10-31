@@ -1,5 +1,4 @@
 import { chromium } from 'playwright-core'
-import { playwright } from '@pipedream/browsers';
 
 export class Thrivecart {
 
@@ -7,12 +6,6 @@ export class Thrivecart {
     {
         this.browser = null
         this.page = null
-    }
-
-    async startPipedream()
-    {
-        this.browser = await playwright.browser();
-        this.page = await this.browser.newPage();
     }
 
     async startLocal(headless = true)
